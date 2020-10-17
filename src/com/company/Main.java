@@ -12,55 +12,51 @@ public class Main {
 
         String regexArab = "([1-9]0?)\\s([-+*\\/])\\s([1-9]0?)";
         String regexRoman = "(I+)?(V?)(I+)?(X?)\\s([-+*\\/])\\s(I+)?(V?)(I+)?(X?)";
+        String str;//строка для чтения введенных данных
+        int a = 0; // первое число 1-10
+        char o = '+'; //операнд вычисления
+        int b = 0; //второе число 1-10
+        boolean arabik = true; //признак арабских вычислений
         try {
 
-            String str = new Scanner(System.in).next();
-
-            if (str.matches(regexArab)) {
-                //todo вычислить арабские
-            } else if (str.matches(regexRoman)) {
-                //todo вычислить римские
-
-            } else {
-                //todo показать исчключение завершить
-                exit(1);
-            }
-
-//        for (int i=1; i<12;i++) {
-//            String s= new RomanNumeral(i).toString();
-//            str = s + ' ' +  "+" +' ' + s ;
-//            // System.out.println(str);
-//            System.out.println(str + "\t" + str.matches(regexRoman));
-//            //System.out.println(new RomanNumeral(i));
-
-
-            //___________________________________
-
-//        String regex = "([1-9]0?)\\s([-+*\\/])\\s([1-9]0?)";
+             str = new Scanner(System.in).nextLine();//чтение строки из консоли
+            //System.out.println(str);
+            //_____________________________отладочный цикл
 //
-//                //"(?:\\d\\s+)?)\\s?+1" ;
-//                //"([-+*\\\\/])\\s?(-?\\d+(?:\\d+)?)";
-//
-//            Pattern pattern=Pattern.compile(regex);
-//
-//        String str ;//= new Scanner(System.in).next();
-//        for (int i=1; i<12;i++) {
-//
-//            str = valueOf(i) +' '+'-'+' '+ valueOf(i);
-//           // System.out.println(str);
-//            System.out.println(str + "\t" + str.matches(regex));
-//        }
+//            for (int i = 1; i < 12; i++) {
+//                String s = new RomanNumeral(i).toString();
+//                str = s + ' ' + "*" + ' ' + s;
+//                //  str = valueOf(i) + ' ' + '*' + ' ' + valueOf(i);
 
-            //  StringBuffer sb = new StringBuffer(str);
-            //       System.out.println(sb);
-            //     System.out.println(str.matches(regex));
-//*********************
+                String[] substr = str.split(" ");
 
+                if (substr.length == 3) {
+                    if (str.matches(regexArab)) {
+                        //todo вычислить арабские
+                        a = Integer.parseInt(substr[0]);
+                        o = substr[1].charAt(0);
+                        b = Integer.parseInt(substr[2]);
+                    } else {
+                        if (str.matches(regexRoman)) {
+                            //todo вычислить римские
+                            arabik = false;
+                            a = new RomanNumeral(substr[0]).toInt();
+                            o = substr[1].charAt(0);
+                            b = new RomanNumeral(substr[2]).toInt();
+                        } else {
+                            //todo показать исчключение завершить
+                            System.err.println("не допустимый формат данных");
+                            exit(1);
+                        }
+                    }
+                } else {
+                    System.err.println("Неудалось разделить строку корректно");
+                    exit(1);
+                }
 
-            new Calculator().calcwithoperand(0, '+', 0);
-
-
-            System.out.println();
+//показать результат вычислений
+                System.out.println(arabik ? new Calculator().calcwithoperand(a, o, b) : new RomanNumeral(new Calculator().calcwithoperand(a, o, b)));
+         //   }
         } catch (Exception e) {
             System.err.println(e);
             exit(1);

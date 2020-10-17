@@ -19,46 +19,39 @@ public class Main {
         boolean arabik = true; //признак арабских вычислений
         try {
 
-             str = new Scanner(System.in).nextLine();//чтение строки из консоли
-            //System.out.println(str);
-            //_____________________________отладочный цикл
-//
-//            for (int i = 1; i < 12; i++) {
-//                String s = new RomanNumeral(i).toString();
-//                str = s + ' ' + "*" + ' ' + s;
-//                //  str = valueOf(i) + ' ' + '*' + ' ' + valueOf(i);
+            str = new Scanner(System.in).nextLine();//чтение строки из консоли
 
-                String[] substr = str.split(" ");
+            String[] substr = str.split(" ");
 
-                if (substr.length == 3) {
-                    if (str.matches(regexArab)) {
-                        //todo вычислить арабские
-                        a = Integer.parseInt(substr[0]);
-                        o = substr[1].charAt(0);
-                        b = Integer.parseInt(substr[2]);
-                    } else {
-                        if (str.matches(regexRoman)) {
-                            //todo вычислить римские
-                            arabik = false;
-                            a = new RomanNumeral(substr[0]).toInt();
-                            o = substr[1].charAt(0);
-                            b = new RomanNumeral(substr[2]).toInt();
-                        } else {
-                            //todo показать исчключение завершить
-                            System.err.println("не допустимый формат данных");
-                            exit(1);
-                        }
-                    }
+            if (substr.length == 3) {
+                if (str.matches(regexArab)) {
+                    // вычислить арабские
+                    a = Integer.parseInt(substr[0]);
+                    o = substr[1].charAt(0);
+                    b = Integer.parseInt(substr[2]);
                 } else {
-                    System.err.println("Неудалось разделить строку корректно");
-                    exit(1);
+                    if (str.matches(regexRoman)) {
+                        // вычислить римские
+                        arabik = false;
+                        a = new RomanNumeral(substr[0]).toInt();
+                        o = substr[1].charAt(0);
+                        b = new RomanNumeral(substr[2]).toInt();
+                    } else {
+                        // показать исчключение завершить
+                        System.err.println("не допустимый формат данных");
+                        exit(1);
+                    }
                 }
+            } else {
+                System.err.println("Неудалось разделить строку корректно");
+                exit(1);
+            }
 
 //показать результат вычислений
-                System.out.println(arabik ? new Calculator().calcwithoperand(a, o, b) : new RomanNumeral(new Calculator().calcwithoperand(a, o, b)));
-         //   }
+            System.out.println(arabik ? new Calculator().calcwithoperand(a, o, b) : new RomanNumeral(new Calculator().calcwithoperand(a, o, b)));
+
         } catch (Exception e) {
-            System.err.println(e);
+            System.err.println(e.toString());
             exit(1);
         }
     }
